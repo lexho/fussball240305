@@ -1,8 +1,8 @@
-import { Feld } from './feld';
-import { Ball } from './ball';
-import { Tor } from './tor';
-import { Position } from './position';
-import { Move } from './move';
+import { Feld } from './feld.js';
+import { Ball } from './ball.js';
+import { Tor } from './tor.js';
+import { Position } from './position.js';
+import { Move } from './move.js';
 
 let nextPlayerID = 1;
 export class Player {
@@ -14,6 +14,7 @@ export class Player {
         this.feld = feld;
         this.id = id; // nextPlayerID;
         nextPlayerID++;
+        this.pos = new Position(x,y);
         this.setPosition(x,y)
     }
 
@@ -23,7 +24,8 @@ export class Player {
     }
     setPosition(x: number,y: number) {
         this.pos = new Position(x,y);
-        this.feld.setPositionOnBoard((this.id % 10), x, y);
+        let sign : unknown = (this.id % 10);
+        this.feld.setPositionOnBoard(sign as string, x, y);
     }
     removePosition() {
         let p = this.pos.y * this.feld.feld_length + this.pos.x;

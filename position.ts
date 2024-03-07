@@ -1,4 +1,4 @@
-import { Move } from './move';
+import { Move } from './move.js';
 
 export class Position {
     x;

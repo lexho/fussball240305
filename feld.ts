@@ -1,6 +1,6 @@
-import { readFileSync } from 'fs';
-import { Position } from './position';
-import { Rectangle } from './rectangle';
+//import { readFileSync } from 'fs';
+import { Position } from './position.js';
+import { Rectangle } from './rectangle.js';
 
 export class Feld {
     feld0 : string = 
@@ -31,21 +31,21 @@ export class Feld {
     feld_height = 20;
 
     constructor() {
-        try {
+        /*try {
             const data = readFileSync('./feld.txt', 'utf-8');
             //console.log(data);
             //this.feld0 = data;
         } catch (err) {
             console.log(err);
-        }
+        }*/
         this.feld = this.feld0;
     }
 
-    get(p) {
+    get(p : number) {
         return this.feld[p]
     }
 
-    setPositionOnBoard(sign, x,y) {
+    setPositionOnBoard(sign : string, x : number,y : number) {
         //console.log("set position on board")
         // sign '*'
         // x Spalten

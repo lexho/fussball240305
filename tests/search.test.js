@@ -1,7 +1,7 @@
 import {describe, expect, test} from '@jest/globals';
-import { Board } from '../board';
-import { MinMaxSearch } from '../search/minmax';
-import { RandomSearch } from '../search/randomSearch';
+import { Board } from '../dist/board.js';
+import { MinMaxSearch } from '../dist/search/minmax.js';
+import { RandomSearch } from '../dist/search/randomSearch.js';
 
 describe('Search', () => {
     let board = new Board();

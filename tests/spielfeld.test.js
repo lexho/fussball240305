@@ -1,10 +1,10 @@
 import {describe, expect, test} from '@jest/globals';
-import { Feld } from '../feld';
-import { Ball } from '../ball';
-import { Board } from '../board';
-import { Move } from '../move';
-import { Rectangle } from '../rectangle';
-import { Position } from '../position';
+import { Feld } from '../dist/feld.js';
+import { Ball } from '../dist/ball.js';
+import { Board } from '../dist/board.js';
+import { Move } from '../dist/move.js';
+import { Rectangle } from '../dist/rectangle.js';
+import { Position } from '../dist/position.js';
 
 describe('Spielfeld', () => {
     beforeEach(()=>{

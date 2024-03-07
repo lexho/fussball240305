@@ -1,5 +1,5 @@
-import { Feld } from './feld';
-import { Position } from './position';
+import { Feld } from './feld.js'
+import { Position } from './position.js';
 
 export class Ball {
     pos : Position;

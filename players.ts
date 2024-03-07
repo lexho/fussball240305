@@ -1,4 +1,4 @@
-import { Player } from './player'
+import { Player } from './player.js'
 
 export class Players {
     players : Player[] = [];
@@ -7,9 +7,9 @@ export class Players {
     index : number;
     constructor(players : Player[]) {
         this.players = players;
-        this.currentPlayer = this.players.at(0);
+        this.currentPlayer = this.players[0];
         this.index = 0;
-        this.prevPlayer = this.players.at(this.index % this.players.length - 1)
+        this.prevPlayer = this.players[(this.index % this.players.length - 1)];
     }
 
     setCurrentPlayer(player) {
@@ -18,7 +18,7 @@ export class Players {
 
     next() {
         this.index++;
-        this.currentPlayer = this.players.at(this.index % this.players.length);
-        this.prevPlayer = this.players.at(this.index % this.players.length - 1)
+        this.currentPlayer = this.players[this.index % this.players.length];
+        this.prevPlayer = this.players[this.index % this.players.length - 1]
     }
 }

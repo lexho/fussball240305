@@ -1,5 +1,5 @@
-import { Position } from './position';
-import { Feld } from './feld';
+import { Position } from './position.js';
+import { Feld } from './feld.js';
 
 export class Tor {
     pos : Position;

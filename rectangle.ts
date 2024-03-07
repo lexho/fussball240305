@@ -1,4 +1,4 @@
-import { Position } from './position'
+import { Position } from './position.js'
 /*
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 x                            x
@@ -9,12 +9,12 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 export class Rectangle {
     length: number
     height : number
-    constructor(length, height) {
+    constructor(length : number, height : number) {
         this.length = length;
         this.height = height;
     }
 
-    ausserhalb(pos) {
+    ausserhalb(pos : Position) {
         let value = false;
         if(pos.x > this.length) value = true;
         if(pos.y > this.height) value = true;
@@ -31,7 +31,7 @@ export class Rectangle {
         return false;
     }
 
-    innerhalb(pos) {
+    innerhalb(pos : Position) {
         if(pos.x < this.length) return true;
         if(pos.y < this.height) return true;
         if(pos.x > 0) return true;

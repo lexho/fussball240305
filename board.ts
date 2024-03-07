@@ -1,9 +1,9 @@
-import { Feld } from './feld';
-import { Player } from './player';
-import { Tor } from './tor';
-import { Ball } from './ball';
-import { Move } from './move';
-import { Players } from './players';
+import { Feld } from './feld.js';
+import { Player } from './player.js';
+import { Tor } from './tor.js';
+import { Ball } from './ball.js';
+import { Move } from './move.js';
+import { Players } from './players.js';
 
 export class Board {
 
@@ -15,7 +15,19 @@ constructor(){
     this.feld = new Feld();
     this.tor_links = new Tor(this.feld.feld_length, this.feld.feld_height/2);
     this.tor_rechts = new Tor(this.feld.feld_length, this.feld.feld_height/2);
-    this.initPlayers();
+    //this.initPlayers();
+    //this.players = [];
+    let players  : Player[]= [];
+    let player;
+    player = new Player(1, this.feld, 22,4);  players.push(player);
+    /*player = new Player(2, this.feld, 22,8);  players.push(player);
+    player = new Player(3, this.feld, 22,12);  players.push(player);
+    player = new Player(4, this.feld, 22,16);  players.push(player);
+
+    player = new Player(5, this.feld, 3,10);  //players.push(player); // Torfrau
+    player = new Player(6, this.feld, 10,7);  players.push(player);
+    player = new Player(7, this.feld, 10,13);  players.push(player);*/
+    this.players = new Players(players);
     this.ball = new Ball(this.feld, this.feld.feld_length/2-1,this.feld.feld_height/2)
     this.ball.draw();
     //console.log(this.feld);
@@ -34,7 +46,7 @@ init(feld: Feld, tor_links : Tor, tor_rechts : Tor, players : Players, ball : Ba
 tick : number = 0;
 players : Players;
 
-initPlayers() {
+/*initPlayers() {
     //this.players = [];
     let players  : Player[]= [];
     let player;
@@ -46,8 +58,8 @@ initPlayers() {
     player = new Player(5, this.feld, 3,10);  //players.push(player); // Torfrau
     player = new Player(6, this.feld, 10,7);  players.push(player);
     player = new Player(7, this.feld, 10,13);  players.push(player);*/
-    this.players = new Players(players);
-}
+    //this.players = new Players(players);
+//}*/
 
 tor_links;
 tor_rechts;
@@ -195,7 +207,7 @@ copy() {
     let playersX  : Players = new Players(players); // currentPlayer players.at(0)
     playersX.index = this.players.index;
     //playersX.currentPlayer = playersX.players.at(this.players.index); //TODO workaround
-    playersX.setCurrentPlayer(playersX.players.at(this.players.index % this.players.players.length));
+    playersX.setCurrentPlayer(playersX.players[this.players.index % this.players.players.length]);
     //playersX.next();
     //playersX.currentPlayer = this.players.currentPlayer.pos.x;
     //this.players.currentPlayer.pos.y;
@@ -232,5 +244,11 @@ getMove() {
 
 draw() {
     this.ball.draw();
+}
+
+toString() {
+    this.statuszeile =`tick: ${this.tick} move: ${this.move.x}/${this.move.y} score: ${this.getScore()} player: ${this.players.currentPlayer.getPosition().x}/${this.players.currentPlayer.getPosition().y} ball: ${this.ball.getPosition().x}/${this.ball.getPosition().y} momentum ${this.ball.momentum_x} currentPlayer: ${this.players.currentPlayer.id} ${this.statuszeile} running: ${this.running}`;
+    let spielstand = this.buildSpielstand();
+    return spielstand + "\n" + this.feld.feld + "\n" + this.statuszeile;
 }
 }

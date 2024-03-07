@@ -1,8 +1,8 @@
 import {describe, expect, test} from '@jest/globals';
-import { Board } from '../board';
-import { Move } from '../move'
-import { Player } from '../player'
-import { Players } from '../players'
+import { Board } from '../dist/board.js';
+import { Move } from '../dist/move.js'
+import { Player } from '../dist/player.js'
+import { Players } from '../dist/players.js'
 
 describe('Board', () => {
     beforeEach(()=>{

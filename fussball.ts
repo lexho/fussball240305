@@ -1,7 +1,7 @@
-import { Board } from './board';
-import { Move } from './move';
-import { Ball } from './ball';
-import { RandomSearch } from './search/randomSearch';
+import { Board } from './board.js';
+import { Move } from './move.js';
+import { Ball } from './ball.js';
+import { RandomSearch } from './search/randomSearch.js';
 
 let board : Board;
 let randomSearch : RandomSearch;
@@ -11,7 +11,7 @@ function nextTick() {
     //if(count == 100) return;
     count++;
     let movescore = randomSearch.search(board.copy());
-    let bmove = movescore.move;
+    let bmove = movescore[0];
     console.log(`randomsearch bestmove: ${bmove.x}/${bmove.y}`);
 
     board.makeMove(bmove);

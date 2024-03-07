@@ -1,8 +1,8 @@
-import { Board } from './board';
-import { Move } from './move';
-import { pseudoRandom } from './utils';
-import { Ball } from './ball';
-import { MinMaxSearch } from './search/minmax';
+import { Board } from './board.js';
+import { Move } from './move.js';
+import { pseudoRandom } from './utils.js';
+import { Ball } from './ball.js';
+import { MinMaxSearch } from './search/minmax.js';
 //import { search } from './search';
 
 let board : Board;
@@ -17,7 +17,7 @@ function nextTick() {
     //let movescore = minmax_search(new Board(), 2);
     //let movescore = minmax_search(() => { return minmax(board, 0)}, 4);
     let movescore = minmaxsearch.search(board, 4);
-    let bmove = movescore.move
+    let bmove = movescore[0]; //.move
     //console.log(`minmax bestmove: ${bmove.x}/${bmove.y} score: ${movescore.score}`);
 
     board.makeMove(bmove);

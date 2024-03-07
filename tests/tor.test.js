@@ -1,5 +1,5 @@
 import {describe, expect, test} from '@jest/globals';
-import { Feld } from '../feld';
+import { Feld } from '../dist/feld.js';
 
 describe('Fussball', () => {
     beforeEach(()=>{
