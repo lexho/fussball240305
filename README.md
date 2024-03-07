@@ -33,5 +33,5 @@ npm test
 
 Dieses Projekt benötigt einen TypeScript-Compiler.
 ```
-tsc fussball.ts --outDir dist && node dist/fussball.js
+tsc && node dist/fussball.js
 ```
