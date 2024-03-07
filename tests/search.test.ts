@@ -1,104 +1,44 @@
 import {describe, expect, test} from '@jest/globals';
 import { Board } from '../board';
-import { Move } from '../move';
-import { pseudoRandom } from '../utils';
-import { minmax } from '../minmax';
+import { MinMaxSearch } from '../search/minmax';
+import { RandomSearch } from '../search/randomSearch';
 
 describe('Search', () => {
     let board = new Board();
-    let generator;
+    let randomSearch;
     beforeEach(()=>{
         board = new Board();
-        generator = pseudoRandom(Date.now());
+        randomSearch = new RandomSearch(Date.now());
     });
 
-    /*describe('random search', () => {
-        it('should be random', () => {
-            for(let i = 0; i < 100; i++) {
-                let move = new Move(0, 0); // nullmove
-                
-                let moves = board.getPossibleMoves();
-                move = getRandomMove(moves);
-                //board.makeMove(moves.at(0));
-                board.makeMove(move);
-                //board.makeMove(moves[generator(moves.length)]);
-                board.print();
-                //expect(board.tick).toBe(0);
-            }
+    describe('random search', () => {
+        it('should be random 1000', () => {
+            let stdabw = getStdabw(new Board(), 1000);
+            console.log(`iterations: ${1000} stdabw: ${stdabw} erwartet: <${0.30}`);
+            expect(stdabw < 0.30).toBeTruthy();
         })
-        /*it('should be 1', () => {
-            let board = new Board();
-            board.nextTick();
-            expect(board.tick).toBe(1);
-        })*/
-    /*});*/
-    function getRandomMove(moves) {
-        let move = new Move(0,0);
-        let min_distancceToBall = 1000; // TODO Integer Max value
-        let min_distanceToGoal = 1000;
-        for(let i = 0; i < 3; i++) {
-            //let index  = generator(moves.length);
-            //console.log(index)
-            let m = moves[generator(moves.length)];
-    
-            let distancceToBall = Math.abs((board.ball.getPosition().x)-(board.players.currentPlayer.pos.x+m.x)) + Math.abs((board.ball.getPosition().y)-(board.players.currentPlayer.pos.y+m.y));
-            
-            let distanceToGoal = -1;
-    
-            if(distancceToBall < min_distancceToBall /*&& distanceToGoal < min_distanceToGoal*/) { 
-                min_distancceToBall = distancceToBall; 
-                move = m;
-            }
-        } // for
-        return move;
-    }
-
-    let count = 0;
-function nextTick() {
-    //if(count == 50) return;
-    if(!board.isRunning()) return;
-    count++;
-    let moves = board.getPossibleMoves();
-    //console.log(moves);
-
-    // search for bestmove
-    let max_score = -100000;
-    let bestMove = new Move(0,0);
-    for(let i = 0; i < moves.length; i++) {
-        let m = moves[i];
-        let copy = board.copy();
-        copy.makeMove(m);
-        //if(!copy.isRunning()) return; //TODO should be on main board
-        let score = copy.getScore();
-
-        //console.log(`score:${score}`)
-        if(score > max_score) { max_score = score; bestMove = m; }      
-    } // for
-
-    //board.getScore();
-    board.makeMove(bestMove);
-    //if(!board.isRunning()) return;
-    //console.log(bestMove)
-    //board.print();
-    nextTick();
-
-}
-    /*describe('search', () => {
-        it('should be Tor!!!', () => {
-            nextTick();
-            board.print();
-            expect(board.isRunning()).toBeFalsy();
-            expect(board.spielstand).toBe(1);
-            expect(board.spielstandGegner).toBe(0);
+        it('should be random 10000', () => {
+            let stdabw = getStdabw(new Board(), 10000);
+            console.log(`iterations: ${10000} stdabw: ${stdabw} erwartet: <${0.07}`);
+            expect(stdabw < 0.07).toBeTruthy();
         })
-    });*/
+        it('should be random 100000', () => {
+            let stdabw = getStdabw(new Board(), 100000);
+            console.log(`iterations: ${100000} stdabw: ${stdabw} erwartet: <${0.025}`);
+            expect(stdabw < 0.025).toBeTruthy();
+        })
+    });
 
     describe('search minmax', () => {
+        let minmax = new MinMaxSearch(4);
         it('should be Tor!!!', () => {
             let count = 0;
             while(!board.tor && count < 200) {
                 count++;
-                let movescore = minmax(board.copy(), 0);
+                //let movescore = minmax(board.copy(), 0);
+                let movescore = minmax.search(board.copy(), 4);
+                //randomSearch.search(board.copy(), 0);
+
                 let bmove = movescore.move
                 //console.log(`minmax bestmove: ${bmove.x}/${bmove.y} score: ${movescore.score}`);
             
@@ -107,11 +47,57 @@ function nextTick() {
             }
             //if(board.tor) return;
             board.print();
-            console.log("limit reached!")
+            if(count == 200) console.log("limit reached!")
             expect(count < 200).toBeTruthy();
             expect(board.spielstand).toBe(1);
             expect(board.spielstandGegner).toBe(0);
         })
     });
-});
 
+    function getStdabw(board, iterations) {
+        let moves = [];
+        //const iterations = 10000
+        for(let i = 0; i < iterations; i++) {
+            let move = randomSearch.search(board.copy());
+            moves.push(move);
+        }
+        //console.log(moves);
+    
+        let count = [board.getPossibleMoves().length];
+        for(let i = 0; i < board.getPossibleMoves().length; i++) {
+            count[i] = 0;
+        }
+        for(let m = 0; m < moves.length; m++) {
+            for(let m1 = 0; m1 < board.getPossibleMoves().length; m1++) {
+                if(moves[m].x == board.getPossibleMoves()[m1].x &&
+                moves[m].y == board.getPossibleMoves()[m1].y
+                ) {
+                    count[m1]++;
+                }
+                
+            }
+        }
+        //console.log("count: ");
+        let gesamtzahl = 0;
+        for(let i = 0; i < count.length; i++) { gesamtzahl += count[i]; }
+        for(let i = 0; i < count.length; i++) {
+            //console.log(`${board.getPossibleMoves()[i]}: ${count[i]} ${count[i]/gesamtzahl}`);
+        }
+        let freq_average = 0;
+        for(let m1 = 0; m1 < board.getPossibleMoves().length; m1++) {
+            freq_average+=count[m1];
+        }
+        freq_average/=count.length;
+        let stdabw = 0;
+        for(let m1 = 0; m1 < board.getPossibleMoves().length; m1++) {
+            let diff = Math.abs(freq_average - count[m1]);
+            if(diff > stdabw) stdabw = diff;
+            //console.log(`${m1}: ${count[m1]}`);
+        }
+        stdabw = stdabw/freq_average
+        const faktor = 100;
+        let grenzw = board.getPossibleMoves().length/iterations*faktor;
+        //console.log(`iterations: ${iterations}`);
+        return stdabw;
+    }
+});

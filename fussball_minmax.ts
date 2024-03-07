@@ -2,10 +2,11 @@ import { Board } from './board';
 import { Move } from './move';
 import { pseudoRandom } from './utils';
 import { Ball } from './ball';
-import { minmax, minmax_search } from './minmax';
+import { MinMaxSearch } from './search/minmax';
 //import { search } from './search';
 
 let board : Board;
+let minmaxsearch : MinMaxSearch;
 
 let count = 0;
 function nextTick() {
@@ -14,7 +15,8 @@ function nextTick() {
     count++;
     //let movescore = minmax(board.copy(), 0);
     //let movescore = minmax_search(new Board(), 2);
-    let movescore = minmax_search(() => { return minmax(board, 0)}, 4);
+    //let movescore = minmax_search(() => { return minmax(board, 0)}, 4);
+    let movescore = minmaxsearch.search(board, 4);
     let bmove = movescore.move
     //console.log(`minmax bestmove: ${bmove.x}/${bmove.y} score: ${movescore.score}`);
 
@@ -36,6 +38,7 @@ function nextTick() {
 
 
 board = new Board();
+minmaxsearch = new MinMaxSearch(4);
 nextTick();
 
 

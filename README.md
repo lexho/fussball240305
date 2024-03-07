@@ -11,7 +11,7 @@ _Dieses Projekt ist noch in der Entwicklung. Mannschaften gibt es noch nicht und
 # Build & Run
 
 ## Voraussetzugen
-Dieses Projekt basiert auf dem Node.js. Das [Node.js](http://nodejs.org/)-Framework kann auf [Node.js](http://nodejs.org/) heruntergeladen und installiert werden.
+Dieses Projekt basiert auf [Node.js](http://nodejs.org/). Das [Node.js](http://nodejs.org/)-Framework kann auf der Projektwebseite heruntergeladen und installiert werden.
 
 Vor dem ersten Ausführen müssen Abhängigkeiten installiert werden.
 ```

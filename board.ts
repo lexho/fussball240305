@@ -178,7 +178,10 @@ evaluate() {
 
 copy() {
     let board = new Board();
-    board.tick = this.tick;
+    /*let board1 = {...board};
+    let board2 = {...this};*/
+    //let board = {...this};
+    //board.tick = this.tick;
     let feld = new Feld();
     let players : Player[] = [];
     feld.feld = this.feld.feld;
