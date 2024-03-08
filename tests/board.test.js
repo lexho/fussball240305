@@ -46,10 +46,17 @@ describe('Board', () => {
     describe('hashwert', () => {
         it('should be different hashes on different boards', () => {
             let board = new Board();
-            console.log(board.hashwert());
+            //board.players.currentPlayer = board.players.players[0];
+            //console.log(board.hashwert());
+            //console.log(board);
+            //board.print();
             let board1 = new Board();
-            board1.makeMove(new Move(1,1));
-            console.log(board1.hashwert());
+            //board1.players.currentPlayer = board.players.players[0];
+            //board1.players.players[0].makeMove(new Move(1,5));
+            board1.makeMove(new Move(1,5));
+            //console.log(board1.hashwert());
+            //console.log(board1);
+            //board1.print();
             expect(board.hashwert() != board1.hashwert()).toBeTruthy();
         });
 
@@ -67,7 +74,7 @@ describe('Board', () => {
             playersX.index = 0;
             playersX.setCurrentPlayer(playersX.players.at(0));
             //board.init(feld, playersX, );
-            //board.players = playersX;
+            board.players = playersX;
             return board;
         }
 
@@ -76,14 +83,11 @@ describe('Board', () => {
             let board2 = buildBoard(1,1);
             let board3 = buildBoard(2,2);
             let board4 = buildBoard(3,3);
-            board1.print();
+            /*board1.print();
             board2.print();
             board3.print();
-            board4.print();
-            console.log(board1.hashwert());
-            console.log(board2.hashwert());
-            console.log(board3.hashwert());
-            console.log(board4.hashwert());
+            board4.print();*/
+            console.log(`hashwerte: ${board1.hashwert()} ${board2.hashwert()} ${board3.hashwert()} ${board4.hashwert()} `)
             expect(board1.hashwert() != board2.hashwert()).toBeTruthy();
             expect(board2.hashwert() != board3.hashwert()).toBeTruthy();
             expect(board3.hashwert() != board4.hashwert()).toBeTruthy();

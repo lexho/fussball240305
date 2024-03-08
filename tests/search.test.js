@@ -39,7 +39,7 @@ describe('Search', () => {
                 let movescore = minmax.search(board.copy(), 4);
                 //randomSearch.search(board.copy(), 0);
 
-                let bmove = movescore.move
+                let bmove = movescore[0]
                 //console.log(`minmax bestmove: ${bmove.x}/${bmove.y} score: ${movescore.score}`);
             
                 board.makeMove(bmove);
@@ -58,7 +58,7 @@ describe('Search', () => {
         let moves = [];
         //const iterations = 10000
         for(let i = 0; i < iterations; i++) {
-            let move = randomSearch.search(board.copy());
+            let move = randomSearch.search(board.copy())[0];
             moves.push(move);
         }
         //console.log(moves);
@@ -96,7 +96,6 @@ describe('Search', () => {
         }
         stdabw = stdabw/freq_average
         const faktor = 100;
-        let grenzw = board.getPossibleMoves().length/iterations*faktor;
         //console.log(`iterations: ${iterations}`);
         return stdabw;
     }

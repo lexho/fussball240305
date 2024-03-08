@@ -1,6 +1,6 @@
-import { RandomSearch } from './randomSearch'
-import { Board } from '../board'
-import { Move } from '../move'
+import { RandomSearch } from './randomSearch.js'
+import { Board } from '../board.js'
+import { Move } from '../move.js'
 
 /*export function search(algorithm, limit : number) {
     depth_limit = limit;

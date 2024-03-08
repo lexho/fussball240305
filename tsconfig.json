@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
     "target": "ES2021",
-    "module": "ES2020",
-    "moduleResolution": "classic",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "outDir": "dist"
   },
   "files": [
     "fussball_minmax.ts",
-    "fussball.ts"
+    "fussball.ts",
+    "server.ts"
   ]
 }

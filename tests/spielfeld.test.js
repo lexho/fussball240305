@@ -16,14 +16,14 @@ describe('Spielfeld', () => {
             const feld = new Feld();
             let ball = new Ball(feld, 0,0);
             ball.draw();
-            console.log(feld.feld);
+            //console.log(feld.feld);
             expect(feld.get(0)).toBe('o');
         })
         it('there should be line \'#\'', () => {
             const feld = new Feld();
             let ball = new Ball(feld, 2,0);
             ball.draw();
-            console.log(feld.feld);
+            //console.log(feld.feld);
             //console.log('"' + feld.feld[feld.feld_length*1 + 9] + "  " + feld.feld[feld.feld_length*1 + 10] + "  " + feld.feld[feld.feld_length*1 + 11] + '"')
             //console.log('"' + feld.feld[feld.feld_length*2 + 9] + "  " + feld.feld[feld.feld_length*2 + 10] + "  " + feld.feld[feld.feld_length*2 + 11] + '"')
             //console.log('"' + feld.feld[feld.feld_length*3 + 9] + " [" + feld.feld[feld.feld_length*3 + 10] + "] " + feld.feld[feld.feld_length*3 + 11] + '"')
@@ -41,7 +41,7 @@ describe('Spielfeld', () => {
             ball2.draw();
             ball3.draw();
             ball4.draw();
-            console.log(feld.feld);
+            //console.log(feld.feld);
             expect(feld.get(0+43)).toBe('o');
             expect(feld.get(feld.feld_length*1+43)).toBe('o');
             expect(feld.get(feld.feld_length*2+43)).toBe('o');
@@ -49,7 +49,7 @@ describe('Spielfeld', () => {
         })
         it('should be in the center of the field', () => {
             let board = new Board();
-            console.log(board.feld.feld);
+            //console.log(board.feld.feld);
             //for(let i = 0; i < board.feld.feld.length; i++) {
             //    if(board.feld.feld[i] == 'o') console.log(`${i} '${board.feld.feld[i]}'`);
             //}
@@ -66,7 +66,7 @@ describe('Spielfeld', () => {
             board.ball.removePosition()
             board.ball.setPosition(42,3)
             board.ball.draw();
-            board.print();
+            //board.print();
             //feld.isOut();
             expect(board.feld.isOut(board.ball.pos)).toBeFalsy();
         })
@@ -77,7 +77,7 @@ describe('Spielfeld', () => {
             board.ball.removePosition()
             board.ball.setPosition(15,0)
             board.ball.draw();
-            board.print();
+            //board.print();
             expect(board.feld.isOut(board.ball.pos)).toBeTruthy();
         })
 
@@ -87,7 +87,7 @@ describe('Spielfeld', () => {
             board.ball.removePosition()
             board.ball.setPosition(15,3)
             board.ball.draw();
-            board.print();
+            //board.print();
             expect(board.feld.isOut(board.ball.pos)).toBeFalsy();
         })
 
@@ -97,7 +97,7 @@ describe('Spielfeld', () => {
             board.ball.removePosition()
             board.ball.setPosition(1,5)
             board.ball.draw();
-            board.print();
+            //board.print();
             expect(board.feld.isOut(board.ball.pos)).toBeTruthy();
         })
 
@@ -107,7 +107,7 @@ describe('Spielfeld', () => {
             board.ball.removePosition()
             board.ball.setPosition(3,5)
             board.ball.draw();
-            board.print();
+            //board.print();
             expect(board.feld.isOut(board.ball.pos)).toBeFalsy();
         })
 
@@ -117,7 +117,7 @@ describe('Spielfeld', () => {
             board.ball.removePosition()
             board.ball.setPosition(88,17)
             board.ball.draw();
-            board.print();
+            //board.print();
             expect(board.feld.isOut(board.ball.pos)).toBeTruthy();
         })
 
@@ -127,7 +127,7 @@ describe('Spielfeld', () => {
             board.ball.removePosition()
             board.ball.setPosition(83,17)
             board.ball.draw();
-            board.print();
+            //board.print();
             expect(board.feld.isOut(board.ball.pos)).toBeFalsy();
         })
     });

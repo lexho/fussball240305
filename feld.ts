@@ -73,10 +73,10 @@ export class Feld {
     }
 
     isOut(pos: Position) {
-        console.log("isOut?");
+        //console.log("isOut?");
         let pos_corrected = new Position(pos.x-2, pos.y-2);
-        console.log(`position corrected: ${pos.x-2}/${pos.y-2}`)
-        console.log(`länge: ${this.feld_length} breite: ${this.feld_height}`);
+        //console.log(`position corrected: ${pos.x-2}/${pos.y-2}`)
+        //console.log(`länge: ${this.feld_length} breite: ${this.feld_height}`);
         let rectangle = new Rectangle(this.feld_length-4, this.feld_height-4);
         return rectangle.ausserhalb(pos_corrected);
         // borders

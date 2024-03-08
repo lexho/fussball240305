@@ -158,7 +158,7 @@ makeMove(move : Move) {
 }
 
 print() {
-    this.statuszeile =`tick: ${this.tick} move: ${this.move.x}/${this.move.y} score: ${this.getScore()} player: ${this.players.currentPlayer.getPosition().x}/${this.players.currentPlayer.getPosition().y} ball: ${this.ball.getPosition().x}/${this.ball.getPosition().y} momentum ${this.ball.momentum_x} currentPlayer: ${this.players.currentPlayer.id} ${this.statuszeile} running: ${this.running}`;
+    this.statuszeile =`hash: ${this.hashwert()} tick: ${this.tick} move: ${this.move.x}/${this.move.y} score: ${this.getScore()} player: ${this.players.currentPlayer.getPosition().x}/${this.players.currentPlayer.getPosition().y} ball: ${this.ball.getPosition().x}/${this.ball.getPosition().y} momentum ${this.ball.momentum_x} currentPlayer: ${this.players.currentPlayer.id} ${this.statuszeile} running: ${this.running}`;
     //this.printMessage(this.message);
     //this.ball.draw();
     //this.feld.feld_length/2-2;
@@ -232,9 +232,16 @@ running = true;
     // ball positions
     //return this.feld.hashwert();
     hash *= 3 * this.ball.pos.x + 7 * this.ball.pos.y
+    //console.log(`hash: ${hash}`)
+    let primes = [2,3,5,7,11,13,17,19,23,29,31];
+    let i = 0;
     for(let player of this.players.players) {
-        hash *= player.hashwert();
+        //console.log(`player ${player.id}: hash ${player.hashwert()}`);
+        hash += primes[i] * player.hashwert();
+        i++;
     }
+    //hash = Math.floor(hash/1000000);
+    //console.log(`board hash: ${hash}`)
     return hash;
 }
 

@@ -24,7 +24,7 @@ export class MinMaxSearch extends Search implements Search {
         } // --> score
         else { 
             let bestMove : Move = new Move(0,0);
-            let max_score = -1000000; //NegativInfinitiy;
+            let max_score = Number.NEGATIVE_INFINITY;
             for(let m of board.getPossibleMoves()) { // explore child nodes
                 let copy = board.copy();
                 copy.makeMove(m); // child

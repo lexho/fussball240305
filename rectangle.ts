@@ -21,8 +21,8 @@ export class Rectangle {
         if(pos.x < 0) value = true;
         if(pos.y < 0) value = true;
         let str = ""
-        if(!value) str = "nicht"
-        console.log(`${pos.x}/${pos.y} ${str} außerhalb von ${this.length}/${this.height}`);
+        //if(!value) str = "nicht"
+        //console.log(`${pos.x}/${pos.y} ${str} außerhalb von ${this.length}/${this.height}`);
         return value;
         /*if(pos.x > this.length) return true;
         if(pos.y > this.height) return true;
