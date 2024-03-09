@@ -118,4 +118,19 @@ export class Player {
     draw() {
 
     }
+
+    /*toString():string {
+        //return `player ${this.id}`;
+        return `{"id": ${this.id}, "x": ${this.pos.x}, "y": ${this.pos.y}}`;
+    }*/
+    toString() {
+        //return `Dog ${this.name} is a ${this.sex} ${this.color} ${this.breed}`;
+        return `{"name": "player", "id": ${this.id}, "x": ${this.pos.x}, "y": ${this.pos.y}}`;
+      }
+    valueOf() {
+        return `{"name": "player", "id": ${this.id}, "x": ${this.pos.x}, "y": ${this.pos.y}}`;
+    }
+    getObject() {
+        return {"name": "player", "id": this.id, "x": this.pos.x, "y": this.pos.y};
+    }
 }

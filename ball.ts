@@ -2,32 +2,49 @@ import { Feld } from './feld.js'
 import { Position } from './position.js';
 
 export class Ball {
-    pos : Position;
+    //pos : Position;
+    x1 : number;
+    y1 : number;
     momentum_x : number = 0;
     momentum_y : number = 0;
     feld : Feld;
     constructor(feld : Feld, x: number,y: number) { 
         this.feld = feld;
-        this.pos = new Position(x,y);
+        //this.pos = new Position(x,y);
+        this.x = x; this.y = y;
         //this.setPosition(x,y)
     }
 
     //position x/y
-    getPosition() {
+    /*getPosition() {
         return this.pos;
+    }*/
+    get x(): number {
+        return this.x1;
+    }
+    get y(): number {
+        return this.y1;
+    }
+
+    set x(x: number) {
+        this.x1 = x;
+    }
+    set y(y: number) {
+        this.y1 = y;
     }
     setPosition(x: number,y: number) {
         //this.pos = new Position(x,y);
         // validate
 
         //if(this.pos.x == this.feld.feld_length - 4 && this.pos.y >= 8 && this.pos.y <= 12) return; // im tor
-        if(this.pos.x > 84 && this.pos.y > 7 && this.pos.y < 13) return; // im tor
+        //if(this.pos.x > 84 && this.pos.y > 7 && this.pos.y < 13) return; // im tor
+        if(this.x > 84 && this.y > 7 && this.y < 13) return;
 
-        this.pos.x = x; this.pos.y = y;
+        this.x = x; this.y = y;
     }
     removePosition() {
-        let p = this.pos.y * this.feld.feld_length + this.pos.x;
-        this.feld.setPositionOnBoard(this.feld.getInitial(p), this.pos.x, this.pos.y);
+        let p = this.y * this.feld.feld_length + this.x;
+        this.feld.setPositionOnBoard(this.feld.getInitial(p), this.x, this.y);
     }
 
     kick(x: number,y: number) {
@@ -47,27 +64,38 @@ export class Ball {
     move() {
         if(this.momentum_x > 0) {
             this.removePosition();
-            this.setPosition(this.pos.x + 2,this.pos.y + 0);
+            this.setPosition(this.x + 2,this.y + 0);
             this.momentum_x--;
         }
         if(this.momentum_x < 0) {
             this.removePosition();
-            this.setPosition(this.pos.x - 2,this.pos.y + 0);
+            this.setPosition(this.x - 2,this.y + 0);
             this.momentum_x--;
         }
         if(this.momentum_y > 0) {
             this.removePosition();
-            this.setPosition(this.pos.x,this.pos.y + 2);
+            this.setPosition(this.x,this.y + 2);
             this.momentum_y--;
         }
         if(this.momentum_y < 0) {
             this.removePosition();
-            this.setPosition(this.pos.x,this.pos.y - 2);
+            this.setPosition(this.x,this.y - 2);
             this.momentum_y--;
         }
     }
 
     draw() {
-        this.feld.setPositionOnBoard('o', this.pos.x, this.pos.y);
+        this.feld.setPositionOnBoard('o', this.x, this.y);
+    }
+
+    
+    toString() {
+        return `{"name": "ball", "x" : ${this.x}, "y": ${this.y}"}`;
+    }
+    valueOf() {
+        return `{"name": "ball", "x" : ${this.x}, "y": ${this.y}"}`;
+    }
+    getObject() {
+        return {"name": "ball", "x" : this.x, "y": this.y};
     }
 }

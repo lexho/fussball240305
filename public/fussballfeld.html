@@ -1,0 +1,147 @@
+<html>
+<head>
+</head>
+<body>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   width="800px"
+   height="600px"
+   viewBox="0 0 1122.5196 793.70081"
+   version="1.1"
+   id="svg1"
+   inkscape:export-filename="fussballfeld.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:2px9;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1"
+       width="969.05737"
+       height="575.05737"
+       x="77.471313"
+       y="109.47131" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:2px;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2"
+       width="229.87177"
+       height="395.87177"
+       x="77.564133"
+       y="198.5641" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:2px;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3"
+       width="141.99063"
+       height="202.99065"
+       x="77.504684"
+       y="295.5047" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:2px;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2-4"
+       width="229.87177"
+       height="395.87177"
+       x="-1045.4359"
+       y="198.56412"
+       transform="scale(-1,1)" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:2px;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3-2"
+       width="141.99063"
+       height="202.99065"
+       x="-1045.4954"
+       y="295.5047"
+       transform="scale(-1,1)" />
+    <circle
+       style="fill:none;stroke:#000000;stroke-width:2px;stroke-dasharray:none;stroke-opacity:1"
+       id="path3"
+       cx="561.60559"
+       cy="395.60559"
+       r="104.10057" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2px;stroke-dasharray:none;stroke-opacity:1"
+       d="M 561.50504,109.91329 V 684.84437"
+       id="path4" />
+  </g>
+</svg>
+<script>
+   const width = 800;
+   const height = 600;
+   let gameboard = document.getElementById("layer1");
+   let svgNS = gameboard.namespaceURI;
+   /*let circle = document.createElementNS(svgNS, "circle");
+   circle.setAttribute("r", 8);
+   circle.setAttribute("fill", "hsl(50,50,50)")
+   circle.setAttribute("cx", Math.random()*width);
+   circle.setAttribute("cy", Math.random()*height);
+   gameboard.appendChild(circle);*/
+
+   function drawPlayer(id, x, y) {
+      console.log(`draw ${x}/${y}`)
+      let circle_prev = document.getElementById(id);
+      if(circle_prev != undefined) circle_prev.remove();
+
+      let circle = document.createElementNS(svgNS, "circle");
+      circle.setAttribute("id", id)
+      circle.setAttribute("r", 8);
+      circle.setAttribute("fill", "hsl(50,50,50)")
+      circle.setAttribute("cx", x);
+      circle.setAttribute("cy", y);
+      gameboard.appendChild(circle);
+   }
+
+   function drawBall(x,y) {
+      console.log(`draw ball ${x}/${y}`)
+      let circle_prev = document.getElementById(0);
+      if(circle_prev != undefined) circle_prev.remove();
+
+      let circle = document.createElementNS(svgNS, "circle");
+      circle.setAttribute("id", 0)
+      circle.setAttribute("r", 8);
+      circle.setAttribute("fill", "hsl(250,100%,50%)")
+      circle.setAttribute("cx", x);
+      circle.setAttribute("cy", y);
+      gameboard.appendChild(circle);
+   }
+
+   /*for(let i = 0; i < 11; i++) {
+      drawPlayer(Math.random()*width, Math.random()*height);
+   }*/
+</script>
+<script>
+   async function getPlayers() {
+   const response = await fetch("http://10.0.0.2:8080/data");
+   const data = await response.json();
+   //console.log(data);
+   for(let player of data.players) {
+      //console.log(player);
+      //console.log(JSON.parse(player).x);
+      drawPlayer(player.id, player.x*20,player.y*30+95);
+}
+   drawBall(data.ball.x*20, data.ball.y*30+95);
+   //let p = document.createElement("p");
+   //p.innerHTML = data.players
+   //document.querySelector("body").appendChild(p)
+   }
+   let players = getPlayers();
+   setInterval(() => {getPlayers();}, 200);
+</script>
+</body>
+</html>

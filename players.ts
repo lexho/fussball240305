@@ -21,4 +21,12 @@ export class Players {
         this.currentPlayer = this.players[this.index % this.players.length];
         this.prevPlayer = this.players[this.index % this.players.length - 1]
     }
+
+    toString(): string {
+        let str = "";
+        for(let player of this.players) {
+            str += player + ", ";
+        }
+        return `${str}`;
+    }
 }

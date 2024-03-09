@@ -20,13 +20,13 @@ constructor(){
     let players  : Player[]= [];
     let player;
     player = new Player(1, this.feld, 22,4);  players.push(player);
-    /*player = new Player(2, this.feld, 22,8);  players.push(player);
+    player = new Player(2, this.feld, 22,8);  players.push(player);
     player = new Player(3, this.feld, 22,12);  players.push(player);
     player = new Player(4, this.feld, 22,16);  players.push(player);
 
     player = new Player(5, this.feld, 3,10);  //players.push(player); // Torfrau
     player = new Player(6, this.feld, 10,7);  players.push(player);
-    player = new Player(7, this.feld, 10,13);  players.push(player);*/
+    player = new Player(7, this.feld, 10,13);  players.push(player);
     this.players = new Players(players);
     this.ball = new Ball(this.feld, this.feld.feld_length/2-1,this.feld.feld_height/2)
     this.ball.draw();
@@ -111,9 +111,9 @@ makeMove(move : Move) {
     //
     // player shoots ball
     // ------>0
-    //console.log(player.getPosition().x+1 + "/" + player.getPosition().y + " " + this.ball.getPosition().x + "/" + this.ball.getPosition().y);
-    if(player.getPosition().x+1 == this.ball.getPosition().x
-            && player.getPosition().y == this.ball.getPosition().y
+    //console.log(player.getPosition().x+1 + "/" + player.getPosition().y + " " + this.ball.x + "/" + this.ball.y);
+    if(player.getPosition().x+1 == this.ball.x
+            && player.getPosition().y == this.ball.y
     ) {
         message += 'player touched ball!';
 
@@ -121,28 +121,28 @@ makeMove(move : Move) {
         //return;
         //while(1);
     }
-    if(player.getPosition().x-1 == this.ball.getPosition().x
-        && player.getPosition().y == this.ball.getPosition().y
+    if(player.getPosition().x-1 == this.ball.x
+        && player.getPosition().y == this.ball.y
     ) {
         //console.log("player touched ball!");
         message += 'player touched ball!';
         this.ball.kick(-10,0);
     }
-    if(player.getPosition().x == this.ball.getPosition().x
-        && player.getPosition().y+1 == this.ball.getPosition().y
+    if(player.getPosition().x == this.ball.x
+        && player.getPosition().y+1 == this.ball.y
     ) {
         //console.log("player touched ball!");
         message += 'player touched ball!';
         this.ball.kick(0,10);
     }    
-    if(player.getPosition().x == this.ball.getPosition().x
-        && player.getPosition().y-1 == this.ball.getPosition().y
+    if(player.getPosition().x == this.ball.x
+        && player.getPosition().y-1 == this.ball.y
     ) {
         //console.log("player touched ball!");
         message += 'player touched ball!';
         this.ball.kick(0,-10);
     }
-    if(this.tor_rechts.contains(this.feld, this.ball.getPosition())) {
+    if(this.tor_rechts.contains(this.feld, this.ball)) {
         message += "Tooor!!!";
         this.spielstandErhoehen();
         //return;
@@ -158,7 +158,7 @@ makeMove(move : Move) {
 }
 
 print() {
-    this.statuszeile =`hash: ${this.hashwert()} tick: ${this.tick} move: ${this.move.x}/${this.move.y} score: ${this.getScore()} player: ${this.players.currentPlayer.getPosition().x}/${this.players.currentPlayer.getPosition().y} ball: ${this.ball.getPosition().x}/${this.ball.getPosition().y} momentum ${this.ball.momentum_x} currentPlayer: ${this.players.currentPlayer.id} ${this.statuszeile} running: ${this.running}`;
+    this.statuszeile =`hash: ${this.hashwert()} tick: ${this.tick} move: ${this.move.x}/${this.move.y} score: ${this.getScore()} player: ${this.players.currentPlayer.getPosition().x}/${this.players.currentPlayer.getPosition().y} ball: ${this.ball.x}/${this.ball.y} momentum ${this.ball.momentum_x} currentPlayer: ${this.players.currentPlayer.id} ${this.statuszeile} running: ${this.running}`;
     //this.printMessage(this.message);
     //this.ball.draw();
     //this.feld.feld_length/2-2;
@@ -173,14 +173,14 @@ evaluate() {
 
     //console.log("currentPlayer: " + player.id)
     
-    let distancceToBall = Math.abs((this.ball.getPosition().x)-(player.pos.x)) + Math.abs((this.ball.getPosition().y)-(player.pos.y));
-    let distanceToGoal = Math.abs((this.ball.getPosition().x-this.tor_rechts.pos.x) + (this.ball.getPosition().y-this.tor_rechts.pos.y));
+    let distancceToBall = Math.abs((this.ball.x)-(player.pos.x)) + Math.abs((this.ball.y)-(player.pos.y));
+    let distanceToGoal = Math.abs((this.ball.x-this.tor_rechts.pos.x) + (this.ball.y-this.tor_rechts.pos.y));
 
     score += -1 * distancceToBall;
     score += -1 * distanceToGoal * 10;
 
     // ball is in Tor!
-    if(this.tor_rechts.contains(this.feld, this.ball.getPosition())) {
+    if(this.tor_rechts.contains(this.feld, this.ball)) {
         score += 1000000;
         this.running = false;
     }
@@ -197,7 +197,7 @@ copy() {
     let feld = new Feld();
     let players : Player[] = [];
     feld.feld = this.feld.feld;
-    let ball = new Ball(feld, this.ball.getPosition().x, this.ball.getPosition().y)
+    let ball = new Ball(feld, this.ball.x, this.ball.y)
     ball.momentum_x = this.ball.momentum_x;
     for(let player of this.players.players) {
         let p = new Player(player.id, feld, player.getPosition().x, player.getPosition().y);
@@ -231,7 +231,7 @@ running = true;
     // player positions
     // ball positions
     //return this.feld.hashwert();
-    hash *= 3 * this.ball.pos.x + 7 * this.ball.pos.y
+    hash *= 3 * this.ball.x + 7 * this.ball.y
     //console.log(`hash: ${hash}`)
     let primes = [2,3,5,7,11,13,17,19,23,29,31];
     let i = 0;
@@ -254,7 +254,7 @@ draw() {
 }
 
 toString() {
-    this.statuszeile =`tick: ${this.tick} move: ${this.move.x}/${this.move.y} score: ${this.getScore()} player: ${this.players.currentPlayer.getPosition().x}/${this.players.currentPlayer.getPosition().y} ball: ${this.ball.getPosition().x}/${this.ball.getPosition().y} momentum ${this.ball.momentum_x} currentPlayer: ${this.players.currentPlayer.id} ${this.statuszeile} running: ${this.running}`;
+    this.statuszeile =`tick: ${this.tick} move: ${this.move.x}/${this.move.y} score: ${this.getScore()} player: ${this.players.currentPlayer.getPosition().x}/${this.players.currentPlayer.getPosition().y} ball: ${this.ball.x}/${this.ball.y} momentum ${this.ball.momentum_x} currentPlayer: ${this.players.currentPlayer.id} ${this.statuszeile} running: ${this.running}`;
     let spielstand = this.buildSpielstand();
     return spielstand + "\n" + this.feld.feld + "\n" + this.statuszeile;
 }
