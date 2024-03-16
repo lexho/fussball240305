@@ -126,22 +126,7 @@
    }*/
 </script>
 <script>
-   async function getPlayers() {
-   const response = await fetch("http://10.0.0.2:8080/data");
-   const data = await response.json();
-   //console.log(data);
-   for(let player of data.players) {
-      //console.log(player);
-      //console.log(JSON.parse(player).x);
-      drawPlayer(player.id, player.x*20,player.y*30+95);
-}
-   drawBall(data.ball.x*20, data.ball.y*30+95);
-   //let p = document.createElement("p");
-   //p.innerHTML = data.players
-   //document.querySelector("body").appendChild(p)
-   }
-   let players = getPlayers();
-   setInterval(() => {getPlayers();}, 200);
+
 </script>
 </body>
 </html>

@@ -9,7 +9,7 @@ export class MinMaxSearch extends Search implements Search {
         this.depth_limit = limit;
     }
     
-    search(board : Board, depth_limit : number) {
+    search(board : Board, depth_limit : number = this.depth_limit) {
         this.depth_limit = depth_limit;
         return this.search0(board, 0);
     }
@@ -23,18 +23,24 @@ export class MinMaxSearch extends Search implements Search {
             return result
         } // --> score
         else { 
-            let bestMove : Move = new Move(0,0);
-            let max_score = Number.NEGATIVE_INFINITY;
+            //let bestMove : Move = new Move(0,0);
+            //let max_score = Number.NEGATIVE_INFINITY;
+            let bestmovescore: [Move, number] = [new Move(0,0), Number.NEGATIVE_INFINITY]
             for(let m of board.getPossibleMoves()) { // explore child nodes
                 let copy = board.copy();
                 copy.makeMove(m); // child
                 let movescore = this.search0(copy, depth); // run minmax on child nodes
                 //console.log(`child node: ${movescore.move.x}/${movescore.move.y} depth ${depth} score: ${movescore.score}`);
-                if(copy.getScore() > max_score) { 
-                    max_score = copy.getScore(); bestMove = m;// get best scored child node
+                //if(copy.getScore() > max_score) { 
+                //if(movescore[1] > max_score) {
+                if(movescore[1] > bestmovescore[1]) {
+                    //max_score = copy.getScore(); bestMove = m;// get best scored child node
+                    //max_score = movescore[1]; bestMove = movescore[0];// get best scored child node
+                    bestmovescore[0] = m; bestmovescore[1] = movescore[1]; 
                 }
             } // for
-            let result: [Move, number] = [bestMove,max_score] // we ran minmax on all child nodes and return the best scored
+            //let result: [Move, number] = [bestMove,max_score] // we ran minmax on all child nodes and return the best scored
+            let result: [Move, number] = [bestmovescore[0],bestmovescore[1]] // we ran minmax on all child nodes and return the best scored
             return result;
         } // if / else
 

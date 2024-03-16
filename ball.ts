@@ -1,5 +1,6 @@
 import { Feld } from './feld.js'
-import { Position } from './position.js';
+import { Move } from './move.js'
+import { Position } from './position.js'
 
 export class Ball {
     //pos : Position;
@@ -97,5 +98,20 @@ export class Ball {
     }
     getObject() {
         return {"name": "ball", "x" : this.x, "y": this.y};
+    }
+
+    getPossibleMoves() {
+        let coord = [new Move(-1,-1), new Move(0,-1), new Move(1,-1), new Move(-1,0), new Move(0,0), new Move(1,0),new Move(-1,1), new Move(0,1), new Move(1,1)];
+        // valid moves
+        let movesValid = [];
+        for(let m of coord) {
+            //let p = this.pos.plus(m);
+            let p = new Position(this.x + m.x, this.y + m.y);
+            if(this.feld.isOnBoard(p) && this.feld.isFree(p)) {
+                movesValid.push(m);
+            }
+        }
+        movesValid.push(new Move(0,0)); // stay
+        return movesValid;
     }
 }

@@ -1,6 +1,5 @@
 import { Board } from './board.js';
 import { Move } from './move.js';
-import { pseudoRandom } from './utils.js';
 import { Ball } from './ball.js';
 import { MinMaxSearch } from './search/minmax.js';
 //import { search } from './search';
@@ -16,14 +15,14 @@ function nextTick() {
     //let movescore = minmax(board.copy(), 0);
     //let movescore = minmax_search(new Board(), 2);
     //let movescore = minmax_search(() => { return minmax(board, 0)}, 4);
-    let movescore = minmaxsearch.search(board, 4);
+    let movescore = minmaxsearch.search(board.copy(), 12); // suchtiefe ist abhängig von der anzahl der spieler
     let bmove = movescore[0]; //.move
-    //console.log(`minmax bestmove: ${bmove.x}/${bmove.y} score: ${movescore.score}`);
+    console.log(`minmax bestmove: ${bmove.x}/${bmove.y} score: ${movescore[1]}`);
 
     board.makeMove(bmove);
     board.print();
     if(board.tor) return;
-    if(board.tick == 100) return;
+    if(board.tick == 200) return;
     
     const end = Date.now();
     let dur = end - start;
@@ -37,7 +36,12 @@ function nextTick() {
 }
 
 
-board = new Board();
+board = new Board(11);
+/*board.makeMove(board.getPossibleMoves()[0]);
+board.makeMove(board.getPossibleMoves()[0]); // player 3 scores
+board.makeMove(board.getPossibleMoves()[0]); // player 3 scores
+board.makeMove(board.getPossibleMoves()[0]);
+board.makeMove(board.getPossibleMoves()[0]);*/
 minmaxsearch = new MinMaxSearch(4);
 nextTick();
 

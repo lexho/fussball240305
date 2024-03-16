@@ -8,6 +8,7 @@
   "files": [
     "fussball_minmax.ts",
     "fussball.ts",
-    "server.ts"
+    "server.ts",
+    "public/frontend.ts"
   ]
 }
