@@ -9,6 +9,6 @@
     "fussball_minmax.ts",
     "fussball.ts",
     "server.ts",
-    "public/frontend.ts"
+    "fussball_neuralnetwork.ts"
   ]
 }
