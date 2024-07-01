@@ -1,7 +1,6 @@
 {
     "type": "module",
     "scripts": {
-        "start": "tsc && node dist/fussball_minmax.js",
         "test": "tsc && node --experimental-vm-modules node_modules/jest/bin/jest.js"
     },
     "devDependencies": {
