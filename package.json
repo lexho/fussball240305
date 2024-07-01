@@ -3,6 +3,9 @@
     "scripts": {
         "test": "tsc && node --experimental-vm-modules node_modules/jest/bin/jest.js"
     },
+      "stackblitz": {
+          "startCommand": false
+      },
     "devDependencies": {
         "@babel/core": "^7.24.0",
         "@babel/preset-env": "^7.24.0",
