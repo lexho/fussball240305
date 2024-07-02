@@ -14,3 +14,12 @@ for (let i = 0; i < 30; i++) {
     board.makeMove(bmove);
 }
 board.print();
+/*for(let move of board.getPossibleMoves()) {
+    let bo = board.copy();
+    bo.makeMove(move);
+    let movescore = neuralnetworksearch.search(bo.copy(), 0); // suchtiefe ist abhängig von der anzahl der spieler
+    let bmove = movescore[0]; //.move
+    console.log(`neural network  bestmove: ${bmove.x}/${bmove.y} score: ${movescore[1]}`);
+    console.log();
+    
+}*/ 
