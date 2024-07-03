@@ -21,7 +21,7 @@ for(let i = 0; i < 30; i++) {
     board.makeMove(bmove);
 }
 
-board.print();
+board.print(); 
 
 /*for(let move of board.getPossibleMoves()) {
     let bo = board.copy();

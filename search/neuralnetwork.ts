@@ -83,7 +83,7 @@ export class NeuralNetworkSearch extends Search implements Search {
     //let b = ball.y * feld.length + ball.x; // ball in the center
     for(let y = 0; y < feld.height; y++) { // rows
         for(let x = 0; x < feld.length/2; x++) { // linke spielfeldhälfte
-            let xi = Math.round(Math.random()*feld.length/2)
+            //let xi = Math.round(Math.random()*feld.length/2)
             let p = y * feld.length + x;
             let b = ball.y * feld.length + ball.x;
             //let p = [];
@@ -141,7 +141,7 @@ export class NeuralNetworkSearch extends Search implements Search {
     let b = ball.y * feld.length + ball.x; // ball in the center
     for(let y = 0; y < feld.height; y++) { // rows
         for(let x = feld.length; x > feld.length/2; x--) { // rechte spielfeldhälfte
-            let xi = Math.round(Math.random()*feld.length/2)
+            //let xi = Math.round(Math.random()*feld.length/2)
             let p = y * feld.length + x;
             let b = ball.y * feld.length + ball.x;
             //let p = [];
@@ -188,6 +188,70 @@ export class NeuralNetworkSearch extends Search implements Search {
         }
     }
 
+    player = { x: 0, y: 0 };
+    ball = { x: this.board.ball.x/this.SCALING, y: this.board.ball.y/this.SCALING };
+    feld = { length: this.board.feld.feld_length/this.SCALING, height: this.board.feld.feld_height/this.SCALING };
+
+    for(let y = 0; y < feld.height/2; y++) { // obere spielfeldhälfte
+        for(let x = 0; x < feld.length; x++) {  
+            //let xi = Math.round(Math.random()*feld.length/2)
+            let p = y * feld.length + x;
+            let xi = Math.round(Math.random()*feld.length/2)
+            let b = ball.y * feld.length + ball.x;
+
+            let inputi = [];
+            for (let i = 0; i < this.IN; i++) { // reset
+                inputi.push(0);
+            }
+            //let inputi = input;
+            inputi[p] = 1; inputi[b] = 1; // the '1' is the position of the player/ball
+            /*for(let pi of p) {
+                inputi[pi] = 1;
+            }
+            for(let bi of b) {
+                inputi[bi] = 1;
+            }*/
+
+            let output = [ 
+                0, 0, 0,
+                0, 0, 0,
+                0, 1, 0,
+            ]
+            let sample = { input: inputi, output: output }
+            samples.push(sample);
+        }
+    }
+
+        for(let y = feld.height; y > 0; y--) { // untere spielfeldhälfte
+            for(let x = 0; x < feld.length; x++) {  
+                //let xi = Math.round(Math.random()*feld.length/2)
+                let p = y * feld.length + x;
+                let xi = Math.round(Math.random()*feld.length/2)
+                let b = ball.y * feld.length + ball.x;
+    
+                let inputi = [];
+                for (let i = 0; i < this.IN; i++) { // reset
+                    inputi.push(0);
+                }
+                //let inputi = input;
+                inputi[p] = 1; inputi[b] = 1; // the '1' is the position of the player/ball
+                /*for(let pi of p) {
+                    inputi[pi] = 1;
+                }
+                for(let bi of b) {
+                    inputi[bi] = 1;
+                }*/
+    
+                let output = [ 
+                    0, 1, 0,
+                    0, 0, 0,
+                    0, 0, 0,
+                ]
+                let sample = { input: inputi, output: output }
+                samples.push(sample);
+            }
+    }
+
     let input1 = input;
     // set player and ball position
     //    0
@@ -230,7 +294,7 @@ export class NeuralNetworkSearch extends Search implements Search {
         0,0,0];
     */
     for(let sample of samples) {
-        console.log(sample);
+        //console.log(sample);
         if(sample.input.length != this.IN) { 
             console.error(`invalid sample size input: ${sample.input.length}`); 
             process.exit(1);
