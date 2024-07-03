@@ -3,6 +3,7 @@ import { Move } from '../move.js'
 import { Board } from '../board.js'
 import { Search } from '../search/search.js'
 import { maxHeaderSize } from 'http';
+import { Feld } from '../feld.js';
 
 export class NeuralNetworkSearch extends Search implements Search {
     
@@ -12,6 +13,11 @@ export class NeuralNetworkSearch extends Search implements Search {
         console.log("neural network search")
         console.log(`input neurons: ${this.IN}\nhidden layer: ${this.HIDDEN}\noutput neurons: 9`);
         console.log();
+
+        console.log(`length: ${this.board.feld.feld_length}\nheight: ${this.board.feld.feld_height}`);
+        console.log(`scaling factor: ${this.SCALING}`);
+        let feld = { length: Math.round(this.board.feld.feld_length/this.SCALING), height: Math.round(this.board.feld.feld_height/this.SCALING) };
+        console.log(`scaled down by scaling factor: ${this.SCALING} to:\nlength: ${feld.length}\nheight: ${feld.height}`);
     }
     
     search(board : Board, depth_limit : number = this.depth_limit) {
@@ -19,10 +25,11 @@ export class NeuralNetworkSearch extends Search implements Search {
         return this.search0(board, 0);
     }
 
-    board = new Board();
-    SCALING = 10;
-    IN = this.board.feld.feld_length * this.board.feld.feld_height * 2 / this.SCALING; // *2
-    HIDDEN = Math.round(this.board.feld.feld_length * this.board.feld.feld_height / this.SCALING / 3);
+    board = new Board();    
+    SCALING = 4;
+    feld = { length: Math.round(this.board.feld.feld_length/this.SCALING), height: Math.round(this.board.feld.feld_height/this.SCALING) };
+    IN = Math.round(this.feld.length * this.feld.height); // *2
+    HIDDEN = 40; //Math.round(this.board.feld.feld_length * this.board.feld.feld_height / this.SCALING / 3);
 
     // provide optional config object (or undefined). Defaults shown.
     config = {
@@ -73,19 +80,21 @@ export class NeuralNetworkSearch extends Search implements Search {
             ]
         }
         let sample = { input: inputi, output: output }
-        samples.push(sample);
+        if(sample.input.length == this.IN) samples.push(sample);
     }*/
 
     let player = { x: 0, y: 0 };
-    let ball = { x: this.board.ball.x/this.SCALING, y: this.board.ball.y/this.SCALING };
-    let feld = { length: this.board.feld.feld_length/this.SCALING, height: this.board.feld.feld_height/this.SCALING };
+    let ball = { x: Math.round(this.board.ball.x/this.SCALING), y: Math.round(this.board.ball.y/this.SCALING) };
+    //let feld = { length: this.board.feld.feld_length/this.SCALING, height: this.board.feld.feld_height/this.SCALING };
+    let feld = this.feld;
 
     //let b = ball.y * feld.length + ball.x; // ball in the center
     for(let y = 0; y < feld.height; y++) { // rows
         for(let x = 0; x < feld.length/2; x++) { // linke spielfeldhälfte
-            //let xi = Math.round(Math.random()*feld.length/2)
+            let xi = Math.round(Math.random()*feld.length/2)
             let p = y * feld.length + x;
             let b = ball.y * feld.length + ball.x;
+            //console.log(`p: ${p}, b: ${b}`)
             //let p = [];
             //p.push(y * feld.length + x);
             //p.push(y * feld.length + x-1);
@@ -112,7 +121,12 @@ export class NeuralNetworkSearch extends Search implements Search {
                 inputi.push(0);
             }
             //let inputi = input;
-            inputi[p] = 1; inputi[b] = 1; // the '1' is the position of the player/ball
+            if(p > 110) { console.error(`p > 110`);  } else {
+                inputi[p] = 1;
+            }
+            if(b > 110) { console.error(`b > 110`);  } else {
+                inputi[b] = 1;
+            }
             /*for(let pi of p) {
                 inputi[pi] = 1;
             }
@@ -127,56 +141,35 @@ export class NeuralNetworkSearch extends Search implements Search {
                 0, 0, 0,
             ]
             let sample = { input: inputi, output: output }
-            samples.push(sample);
+            if(sample.input.length == this.IN) samples.push(sample);
         }
     }
 
     //samples.push({ input: input, output: [0,0,0,0,0,0,0,0,0]}); // empty board
-
+    
     player = { x: 0, y: 0 };
-    ball = { x: this.board.ball.x/this.SCALING, y: this.board.ball.y/this.SCALING };
+    ball = { x: Math.round(this.board.ball.x/this.SCALING), y: Math.round(this.board.ball.y/this.SCALING) };
     feld = { length: this.board.feld.feld_length/this.SCALING, height: this.board.feld.feld_height/this.SCALING };
     //bx = this.board.ball.x; by = this.board.ball.y;
     //bx /= this.SCALING; by /= this.SCALING;
     let b = ball.y * feld.length + ball.x; // ball in the center
     for(let y = 0; y < feld.height; y++) { // rows
         for(let x = feld.length; x > feld.length/2; x--) { // rechte spielfeldhälfte
-            //let xi = Math.round(Math.random()*feld.length/2)
+            let xi = Math.round(Math.random()*feld.length/2)
             let p = y * feld.length + x;
             let b = ball.y * feld.length + ball.x;
-            //let p = [];
-            //p.push(y * feld.length + x);
-            //p.push(y * feld.length + x-1);
-            //p.push(y * feld.length + x+1);
-            /*p.push((y + 1) * feld.length + x);
-            p.push((y + 1) * feld.length + x-1);
-            p.push((y + 1) * feld.length + x+1);
-            p.push((y - 1) * feld.length + x);
-            p.push((y - 1) * feld.length + x-1);
-            p.push((y - 1) * feld.length + x+1);*/
-            //let b = [];
-            //b.push(ball.y * feld.length + ball.x);
-            //b.push(ball.y * feld.length + ball.x-1);
-            //b.push(ball.y * feld.length + ball.x+1);
-            /*b.push((ball.y + 1) * feld.length + ball.x);
-            b.push((ball.y + 1)  * feld.length + ball.x-1);
-            b.push((ball.y + 1)  * feld.length + ball.x+1);
-            b.push((ball.y - 1) * feld.length + ball.x);
-            b.push((ball.y - 1)  * feld.length + ball.x-1);
-            b.push((ball.y - 1)  * feld.length + ball.x+1);*/
+            //console.log(`p: ${p}, b: ${b}`)
 
             let inputi = [];
             for (let i = 0; i < this.IN; i++) { // reset
                 inputi.push(0);
             }
-            //let inputi = input;
-            inputi[p] = 1; inputi[b] = 1; // the '1' is the position of the player/ball
-            /*for(let pi of p) {
-                inputi[pi] = 1;
+            if(p > 110) { console.error(`p > 110`);  } else {
+                inputi[p] = 1;
             }
-            for(let bi of b) {
-                inputi[bi] = 1;
-            }*/
+            if(b > 110) { console.error(`b > 110`);  } else {
+                inputi[b] = 1;
+            }
 
             let output = [ 
                 0, 0, 0,
@@ -184,13 +177,9 @@ export class NeuralNetworkSearch extends Search implements Search {
                 0, 0, 0,
             ]
             let sample = { input: inputi, output: output }
-            samples.push(sample);
+            if(sample.input.length == this.IN) samples.push(sample);
         }
     }
-
-    player = { x: 0, y: 0 };
-    ball = { x: this.board.ball.x/this.SCALING, y: this.board.ball.y/this.SCALING };
-    feld = { length: this.board.feld.feld_length/this.SCALING, height: this.board.feld.feld_height/this.SCALING };
 
     for(let y = 0; y < feld.height/2; y++) { // obere spielfeldhälfte
         for(let x = 0; x < feld.length; x++) {  
@@ -198,19 +187,19 @@ export class NeuralNetworkSearch extends Search implements Search {
             let p = y * feld.length + x;
             let xi = Math.round(Math.random()*feld.length/2)
             let b = ball.y * feld.length + ball.x;
+            //console.log(`p: ${p}, b: ${b}`)
 
             let inputi = [];
             for (let i = 0; i < this.IN; i++) { // reset
                 inputi.push(0);
             }
             //let inputi = input;
-            inputi[p] = 1; inputi[b] = 1; // the '1' is the position of the player/ball
-            /*for(let pi of p) {
-                inputi[pi] = 1;
+            if(p > 110) { console.error(`p > 110`);  } else {
+                inputi[p] = 1;
             }
-            for(let bi of b) {
-                inputi[bi] = 1;
-            }*/
+            if(b > 110) { console.error(`b > 110`);  } else {
+                inputi[b] = 1;
+            }
 
             let output = [ 
                 0, 0, 0,
@@ -218,29 +207,31 @@ export class NeuralNetworkSearch extends Search implements Search {
                 0, 1, 0,
             ]
             let sample = { input: inputi, output: output }
-            samples.push(sample);
+            if(sample.input.length == this.IN) samples.push(sample);
         }
     }
 
-        for(let y = feld.height; y > 0; y--) { // untere spielfeldhälfte
+        
+
+        for(let y = feld.height; y > feld.height/2; y--) { // untere spielfeldhälfte
             for(let x = 0; x < feld.length; x++) {  
                 //let xi = Math.round(Math.random()*feld.length/2)
                 let p = y * feld.length + x;
                 let xi = Math.round(Math.random()*feld.length/2)
                 let b = ball.y * feld.length + ball.x;
+                //console.log(`p: ${p}, b: ${b}`)
     
                 let inputi = [];
                 for (let i = 0; i < this.IN; i++) { // reset
                     inputi.push(0);
                 }
                 //let inputi = input;
-                inputi[p] = 1; inputi[b] = 1; // the '1' is the position of the player/ball
-                /*for(let pi of p) {
-                    inputi[pi] = 1;
-                }
-                for(let bi of b) {
-                    inputi[bi] = 1;
-                }*/
+            if(p > 110) { console.error(`p > 110`);  } else {
+                inputi[p] = 1;
+            }
+            if(b > 110) { console.error(`b > 110`);  } else {
+                inputi[b] = 1;
+            }
     
                 let output = [ 
                     0, 1, 0,
@@ -248,8 +239,14 @@ export class NeuralNetworkSearch extends Search implements Search {
                     0, 0, 0,
                 ]
                 let sample = { input: inputi, output: output }
-                samples.push(sample);
+                if(sample.input.length == this.IN) samples.push(sample);
             }
+    }
+
+    // remove random samples
+    for(let i=0; i < 50; i++) {
+        let i = Math.random()*samples.length;
+        samples.splice(i,1);
     }
 
     let input1 = input;
@@ -295,6 +292,7 @@ export class NeuralNetworkSearch extends Search implements Search {
     */
     for(let sample of samples) {
         //console.log(sample);
+        //this.printSample(sample);
         if(sample.input.length != this.IN) { 
             console.error(`invalid sample size input: ${sample.input.length}`); 
             process.exit(1);
@@ -305,7 +303,23 @@ export class NeuralNetworkSearch extends Search implements Search {
         }
     }
     console.log(`samples size: ${samples.length}`)
+    //process.exit(1);
     this.net.train(samples);
+  }
+
+  printSample(sample) {
+    sample = sample.input;
+    let feld = { length: Math.round(this.board.feld.feld_length/this.SCALING), height: Math.round(this.board.feld.feld_height/this.SCALING) };
+    let str = "";
+    console.log(` feld_length: ${feld.length}`);
+    console.log(` feld_height: ${feld.height}`);
+    for(let i = 0; i < sample.length; i++) {
+        //console.log(sample[i]);
+        str += sample[i] + " ";
+      if(i % feld.length == 0) str += "\n"
+  
+    }
+    console.log(str)
   }
 
     private search0(board : Board, depth: number) {
